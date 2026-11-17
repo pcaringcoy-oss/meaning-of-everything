@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#17152f">
+<title>The Meaning of Everything | A Reflection Game</title>
+<style>
+:root{--bg:#111126;--panel:#1c1b3b;--panel2:#25234a;--ink:#f7f3ff;--muted:#c4bddb;--accent:#c7a8ff;--accent2:#8ed8d0;--line:#45416d;--gold:#f3d99b}
+*{box-sizing:border-box} body{margin:0;min-height:100vh;color:var(--ink);font-family:Georgia,"Times New Roman",serif;background:radial-gradient(ellipse at 15% 5%,#34305d 0,transparent 35%),radial-gradient(ellipse at 90% 80%,#263c54 0,transparent 30%),var(--bg)}
+button,textarea{font:inherit} button{cursor:pointer}
+.shell{max-width:980px;margin:auto;padding:24px 18px 50px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:26px;font:600 12px/1.4 Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.brand{display:flex;align-items:center;gap:9px}.orb{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 16px var(--accent)}
+.pill{border:1px solid var(--line);padding:7px 11px;border-radius:30px;letter-spacing:.08em}
+.hero{text-align:center;padding:54px 20px 42px}
+.eyebrow{font:600 11px Arial,sans-serif;letter-spacing:.25em;text-transform:uppercase;color:var(--accent2)}
+h1{font-size:clamp(2.6rem,8vw,5.3rem);line-height:.98;font-weight:400;margin:18px 0 16px;letter-spacing:-.045em}
+.subtitle{font-size:clamp(1rem,2.5vw,1.25rem);line-height:1.65;color:var(--muted);max-width:610px;margin:0 auto}
+.stars{color:var(--gold);letter-spacing:15px;font-size:20px;margin:20px 0}
+.panel{background:linear-gradient(145deg,rgba(37,35,74,.96),rgba(26,25,54,.96));border:1px solid var(--line);border-radius:24px;padding:clamp(22px,5vw,42px);box-shadow:0 20px 70px #05051155}
+.center{text-align:center}.smallcaps{font:600 11px Arial,sans-serif;letter-spacing:.17em;text-transform:uppercase;color:var(--accent2)}
+h2{font-size:clamp(1.7rem,4vw,2.5rem);font-weight:400;line-height:1.15;margin:13px 0}
+p{line-height:1.7}.muted{color:var(--muted)}
+.btn{border:0;border-radius:999px;padding:14px 23px;background:var(--accent);color:#21183a;font:700 14px Arial,sans-serif;transition:.2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn.secondary{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:25px}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.rule{border:1px solid var(--line);border-radius:15px;padding:15px;text-align:left;background:#ffffff08}
+.rule b{display:block;color:var(--accent);font:600 12px Arial,sans-serif;letter-spacing:.08em;margin-bottom:7px}
+.rule span{font-size:14px;line-height:1.5;color:var(--muted)}
+.hidden{display:none!important}
+.progress-wrap{margin-bottom:22px}
+.progress-meta{display:flex;justify-content:space-between;font:12px Arial,sans-serif;color:var(--muted);margin-bottom:9px}
+.track{height:7px;background:#0c0c20;border-radius:10px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .35s}
+.question{font-size:clamp(1.65rem,4.8vw,2.7rem);line-height:1.25;margin:22px 0 25px}
+textarea{width:100%;min-height:150px;resize:vertical;background:#11112b;border:1px solid var(--line);border-radius:15px;padding:17px;color:var(--ink);font-size:16px;line-height:1.6;outline:none}
+textarea:focus{border-color:var(--accent)} textarea::placeholder{color:#8f89aa}
+.note{font:12px/1.6 Arial,sans-serif;color:var(--muted);margin-top:10px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+.choice{padding:18px;border-radius:15px;border:1px solid var(--line);background:#11112b;color:var(--ink);text-align:left;line-height:1.5}
+.choice.selected{border-color:var(--accent);background:#5a477733;box-shadow:inset 0 0 0 1px var(--accent)}
+.choice strong{display:block;color:var(--accent);font:600 11px Arial,sans-serif;letter-spacing:.12em;margin-bottom:8px}
+.footer{text-align:center;color:#9d97b7;font:11px/1.6 Arial,sans-serif;margin:24px 0 0}
+.level-list{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.dot{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);font:11px Arial,sans-serif;color:var(--muted)}
+.dot.done{background:var(--accent2);color:#142b30;border-color:var(--accent2)}
+.dot.current{border-color:var(--accent);color:var(--accent)}
+.review{background:#11112b;border:1px solid var(--line);border-radius:13px;padding:14px;margin:10px 0;text-align:left}
+.review b{display:block;color:var(--accent2);font:600 11px Arial,sans-serif;letter-spacing:.1em;margin-bottom:7px}
+@media(max-width:650px){.rules{grid-template-columns:1fr}.choices{grid-template-columns:1fr}.hero{padding-top:35px}.top{font-size:10px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="top"><div class="brand"><span class="orb"></span> A CLASSROOM REFLECTION GAME</div><div class="pill">10 JOURNEYS · 1 YOU</div></header>
+
+  <section id="welcome">
+    <div class="hero">
+      <div class="eyebrow">A journey through life's big questions</div>
+      <h1>The Meaning<br><i>of Everything</i></h1>
+      <div class="stars">✦ · ✧ · ✦</div>
+      <p class="subtitle">Ten thoughtful prompts about identity, purpose, change, connection, and what it means to be human.</p>
+    </div>
+    <div class="panel center">
+      <div class="smallcaps">Before you begin</div>
+      <h2>There are no perfect answers.</h2>
+      <p class="muted">This is a space to think, write, and listen. Share only what you feel comfortable sharing. You may skip any prompt, keep your answers private, or use an imaginary example instead of a personal one.</p>
+      <div class="rules">
+        <div class="rule"><b>01 · REFLECT</b><span>Take your time with each question. A few honest sentences are enough.</span></div>
+        <div class="rule"><b>02 · RESPECT</b><span>Listen without judging, teasing, or forcing anyone to explain.</span></div>
+        <div class="rule"><b>03 · CHOOSE</b><span>You decide what to share. Passing is always allowed.</span></div>
+      </div>
+      <div class="actions"><button class="btn" onclick="startGame()">Begin the journey →</button></div>
+    </div>
+  </section>
+
+  <section id="game" class="hidden">
+    <div class="progress-wrap">
+      <div class="progress-meta"><span id="levelLabel">LEVEL 1 OF 10</span><span id="percent">10% COMPLETE</span></div>
+      <div class="track"><div class="fill" id="bar"></div></div>
+      <div class="level-list" id="dots"></div>
+    </div>
+    <div class="panel">
+      <div class="smallcaps" id="category">IDENTITY & CHANGE</div>
+      <h2 id="gameTitle">The Devil Asked Me</h2>
+      <div class="question" id="prompt"></div>
+      <div id="answerArea">
+        <textarea id="answer" maxlength="1200" placeholder="Write your thoughts here..."></textarea>
+        <div class="note">Your response stays in this browser session. You can leave it blank and move on.</div>
+      </div>
+      <div id="choiceArea" class="hidden">
+        <div class="choices" id="choices"></div>
+        <textarea id="choiceReason" maxlength="1200" placeholder="Why did you choose this? (Optional)"></textarea>
+      </div>
+      <div class="actions">
+        <button class="btn secondary" onclick="skipLevel()">Skip this prompt</button>
+        <button class="btn" id="nextBtn" onclick="nextLevel()">Save & continue →</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="finish" class="hidden">
+    <div class="hero">
+      <div class="eyebrow">You made space to think</div>
+      <h1>Keep asking<br><i>beautiful questions.</i></h1>
+      <div class="stars">✦ · ✧ · ✦</div>
+    </div>
+    <div class="panel center">
+      <div class="smallcaps">Journey complete</div>
+      <h2>Thank you for reflecting.</h2>
+      <p class="muted">The goal was never to find one correct answer. It was to pause, consider another perspective, and give your own thoughts a little room.</p>
+      <div id="summary"></div>
+      <div class="actions">
+        <button class="btn" onclick="downloadAnswers()">Download my reflections</button>
+        <button class="btn secondary" onclick="restartGame()">Play again</button>
+      </div>
+      <p class="note">If you are playing as a class, your teacher may invite volunteers to share. No one needs to read a private answer aloud.</p>
+    </div>
+  </section>
+  <div class="footer">THE MEANING OF EVERYTHING · THINK FREELY · LISTEN KINDLY</div>
+</div>
+<script>
+const levels = [
+ {title:"The Devil Asked Me",cat:"IDENTITY & CHANGE",prompt:"The devil asked me what I feared most, and I said...",type:"write"},
+ {title:"If My Soul Could Speak",cat:"EMOTIONS & HONESTY",prompt:"If my soul could speak, it would tell the world...",type:"write"},
+ {title:"The Universe Knows",cat:"CHANGE & MEANING",prompt:"When life changes in a way I did not expect, I can choose to...",type:"write"},
+ {title:"A Letter From Your Future Self",cat:"GROWTH & POSSIBILITY",prompt:"Dear younger me, I wish you knew...",type:"write"},
+ {title:"What If Nobody Remembered?",cat:"PURPOSE & LEGACY",prompt:"Even if nobody remembered my name, I would still want my life to stand for...",type:"write"},
+ {title:"Finish My Existential Thought",cat:"GROWING UP",prompt:"Perhaps growing up is just...",type:"write"},
+ {title:"The Stranger Knows You",cat:"IDENTITY & UNDERSTANDING",prompt:"You seem like someone who...",type:"write"},
+ {title:"The Unsent Confession",cat:"COURAGE & COMMUNICATION",prompt:"One thing people should understand about being human is...",type:"write"},
+ {title:"Choose Between Two Truths",cat:"VALUES & CHOICES",prompt:"Which matters more to you in a friendship?",type:"choice",choices:["Being understood","Being accepted"]},
+ {title:"The Meaning of Everything",cat:"LIFE & PURPOSE",prompt:"What if the purpose of life isn't to be happy, but to...",type:"write"}
+];
+let current=0, answers=Array(levels.length).fill(null), selected=null;
+const $=id=>document.getElementById(id);
+function show(id){["welcome","game","finish"].forEach(x=>$(x).classList.toggle("hidden",x!==id))}
+function startGame(){show("game");render()}
+function render(){
+ const l=levels[current]; selected=null;
+ $("levelLabel").textContent=`LEVEL ${current+1} OF ${levels.length}`;
+ $("percent").textContent=`${Math.round((current+1)/levels.length*100)}% THROUGH`;
+ $("bar").style.width=`${(current+1)/levels.length*100}%`;
+ $("category").textContent=l.cat;$("gameTitle").textContent=l.title;$("prompt").textContent=`“${l.prompt}”`;
+ $("dots").innerHTML=levels.map((_,i)=>`<span class="dot ${answers[i]!==null?'done':i===current?'current':''}">${i+1}</span>`).join("");
+ const saved=answers[current];
+ if(l.type==="choice"){
+  $("answerArea").classList.add("hidden");$("choiceArea").classList.remove("hidden");
+  $("choices").innerHTML=l.choices.map((c,i)=>`<button class="choice ${saved&&saved.pick===i?'selected':''}" onclick="selectChoice(${i})"><strong>OPTION ${i+1}</strong>${c}</button>`).join("");
+  $("choiceReason").value=saved?.reason||"";
+  selected=saved?.pick??null;
+ }else{
+  $("choiceArea").classList.add("hidden");$("answerArea").classList.remove("hidden");$("answer").value=saved?.text||"";
+ }
+ $("nextBtn").textContent=current===levels.length-1?"Finish journey ✓":"Save & continue →";
+}
+function selectChoice(i){selected=i;renderChoice()}
+function renderChoice(){const l=levels[current];$("choices").innerHTML=l.choices.map((c,i)=>`<button class="choice ${selected===i?'selected':''}" onclick="selectChoice(${i})"><strong>OPTION ${i+1}</strong>${c}</button>`).join("")}
+function saveCurrent(){
+ if(levels[current].type==="choice")answers[current]={pick:selected,reason:$("choiceReason").value.trim()};
+ else answers[current]={text:$("answer").value.trim()};
+}
+function nextLevel(){saveCurrent();if(current===levels.length-1){finish()}else{current++;render()}}
+function skipLevel(){answers[current]={skipped:true};if(current===levels.length-1)finish();else{current++;render()}}
+function finish(){
+ show("finish");let done=answers.filter(a=>a&&!a.skipped&&(a.text||a.pick!==undefined)).length;
+ $("summary").innerHTML=`<div class="review"><b>YOUR JOURNEY</b>You completed ${done} of ${levels.length} reflections. Every question you considered counts.</div>`;
+}
+function restartGame(){current=0;answers=Array(levels.length).fill(null);show("game");render()}
+function downloadAnswers(){
+ let lines=["THE MEANING OF EVERYTHING — MY REFLECTIONS",""];
+ levels.forEach((l,i)=>{let a=answers[i];lines.push(`${i+1}. ${l.title}`,l.prompt);if(!a||a.skipped)lines.push("Skipped");else if(a.pick!==undefined){lines.push("Choice: "+l.choices[a.pick]);if(a.reason)lines.push("Why: "+a.reason)}else lines.push(a.text||"(No response)");lines.push("")});
+ let blob=new Blob([lines.join("\n")],{type:"text/plain"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="my-meaning-of-everything-reflections.txt";a.click();URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
